@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>南崁家菜單</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 5px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-button {
+            background: transparent;
+            border: none;
+            padding: 15px 30px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 45px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab-button.active {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tab-button:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .menu-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .menu-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .menu-info {
+            padding: 20px;
+        }
+
+        .menu-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .menu-description {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 2% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #e74c3c;
+        }
+
+        .modal img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+
+        .modal img.zoomed {
+            transform: scale(1.5);
+            cursor: zoom-out;
+            object-fit: contain;
+        }
+
+        /* 為縮放圖片添加容器 */
+        .modal-image-container {
+            overflow: auto;
+            max-height: 70vh;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal h2 {
+            color: #2c3e50;
+            margin: 20px 0 10px 0;
+            font-size: 2rem;
+        }
+
+        .modal p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab-button {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ 南崁家菜單</h1>
+            <p>收藏我們喜愛的南崁美食，記錄每一份美味回憶</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('main-dishes')">🍜 主餐類</button>
+            <button class="tab-button" onclick="showTab('desserts')">🧋 下午茶甜點</button>
+        </div>
+
+        <div id="main-dishes" class="tab-content active">
+            <div class="menu-grid">
+                <div class="menu-card" onclick="openModal('menu1')">
+                    <img src="/Nankaneats/foodimages/fm1.jpg" alt="來來小吃店" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZjc5NDM7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmYWI0MDtzdG9wLW9wYWNpdHk6MSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjUwIiBmaWxsPSJ1cmwoI2dyYWQpIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIxMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7mjLHniYfogZrnmbU8L3RleHQ+CiAgPHRleHQgeD0iMjAwIiB5PSIxNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuWPsOeBo+mHjuaWmeWkp+WFqDwvdGV4dD4KICA8Y2lyY2xlIGN4PSI4MCIgY3k9IjgwIiByPSIzMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIi8+CiAgPGNpcmNsZSBjeD0iMzIwIiBjeT0iMTcwIiByPSIyNSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjIpIi8+Cjwvc3ZnPg=='">
+                    <div class="menu-info">
+                        <div class="menu-title">來來小吃店</div>
+                        <div class="menu-description">台灣傳統黑豬肉 • 大火快炒製成<br>招牌肉燥麵、湯品、熱炒等</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="desserts" class="tab-content">
+            <div class="menu-grid">
+                <div class="menu-card" onclick="openModal('menu2')">
+                    <img src="/Nankaneats/teatimeimages/tm1.jpg" alt="天仁茗茶" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZDIiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNmJiNmZmO3N0b3Atb3BhY2l0eToxIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM0ZjQ2ZTU7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0idXJsKCNncmFkMikiLz4KICA8dGV4dCB4PSIyMDAiIHk9IjEwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuiMtuW4q+mkkOiMtTwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjE0MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+57aT5YW456OL5qW8ICLkuLPlkpHoopE8L3RleHQ+CiAgPGNpcmNsZSBjeD0iMTIwIiBjeT0iNjAiIHI9IjIwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNCkiLz4KICA8Y2lyY2xlIGN4PSIzMDAiIGN5PSIxODAiIHI9IjE1IiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiLz4KICA8Y2lyY2xlIGN4PSI2MCIgY3k9IjE4MCIgcj0iMTgiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zKSIvPgo8L3N2Zz4='">
+                    <div class="menu-info">
+                        <div class="menu-title">天仁茗茶</div>
+                        <div class="menu-description">精選現泡茶葉 • 專業調茶師<br>經典原茶、醇蜜系列、奶茶類等</div>
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="openModal('menu3')">
+                    <img src="/Nankaneats/teatimeimages/tm2.jpg" alt="先喝道" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZDMiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZmY2ZGJiO3N0b3Atb3BhY2l0eToxIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNlZTUzOTY7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0idXJsKCNncmFkMykiLz4KICA8dGV4dCB4PSIyMDAiIHk9IjEwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuatpeWWneWuo+mjsEE8L3RleHQ+CiAgPHRleHQgeD0iMjAwIiB5PSIxNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuaqv+eKlOmFlOaWmeWvpueJueiqv+iMtTwvdGV4dD4KICA8Y2lyY2xlIGN4PSI5MCIgY3k9IjcwIiByPSIyNSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIi8+CiAgPGNpcmNsZSBjeD0iMzEwIiBjeT0iMTkwIiByPSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjI1KSIvPgo8L3N2Zz4='">
+                    <div class="menu-info">
+                        <div class="menu-title">先喝道</div>
+                        <div class="menu-description">精緻茶品 • 專業調配<br>莊園好茶、糯島龍、精選奶茶等</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模態視窗 -->
+    <div id="menuModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        const menuData = {
+            menu1: {
+                title: "來來小吃店",
+                image: "/Nankaneats/foodimages/fm1.jpg",
+                content: `
+                    <h2>來來小吃店</h2>
+                    <p><strong>地址：</strong>(03)312-5555</p>
+                    <p><strong>營業時間：</strong>11:30 - 21:00 (週四公休)</p>
+                    <p><strong>特色：</strong>本店傳統以上等的「台灣溫體黑豬肉」大火快炒製成</p>
+                `
+            },
+            menu2: {
+                title: "天仁茗茶",
+                image: "/Nankaneats/teatimeimages/tm1.jpg",
+                content: `
+                    <h2>天仁茗茶</h2>
+                    <p><strong>地址：</strong>南崁路二段123號</p>
+                    <p><strong>營業時間：</strong>10:00 - 22:00</p>
+                    <p><strong>特色：</strong>經典現泡茶葉，專業調茶師精心製作</p>
+                `
+            },
+            menu3: {
+                title: "先喝道",
+                image: "/Nankaneats/teatimeimages/tm2.jpg",
+                content: `
+                    <h2>先喝道</h2>
+                    <p><strong>地址：</strong>新生路456號</p>
+                    <p><strong>營業時間：</strong>11:00 - 21:30</p>
+                    <p><strong>特色：</strong>精緻茶品專業調配，嚴選上等茶葉</p>
+                `
+            }
+        };
+
+        function showTab(tabName) {
+            // 隱藏所有標籤內容
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // 移除所有按鈕的活動狀態
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // 顯示選中的標籤內容
+            document.getElementById(tabName).classList.add('active');
+            
+            // 設定對應按鈕為活動狀態
+            event.target.classList.add('active');
+        }
+
+        function openModal(menuId) {
+            const modal = document.getElementById('menuModal');
+            const modalBody = document.getElementById('modalBody');
+            const menu = menuData[menuId];
+            
+            modalBody.innerHTML = `
+                <div class="modal-image-container">
+                    <img src="${menu.image}" alt="${menu.title}" onclick="toggleZoom(this)" onerror="this.style.display='none'">
+                </div>
+                ${menu.content}
+            `;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('menuModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 點擊模態視窗外部關閉
+        window.onclick = function(event) {
+            const modal = document.getElementById('menuModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // ESC鍵關閉模態視窗
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // 圖片縮放功能
+        function toggleZoom(imgElement) {
+            imgElement.classList.toggle('zoomed');
+            const container = imgElement.parentElement;
+            
+            if (imgElement.classList.contains('zoomed')) {
+                // 當圖片放大時，確保可以用滑鼠拖動
+                let isDragging = false;
+                let startX, startY, scrollLeft, scrollTop;
+
+                container.addEventListener('mousedown', function(e) {
+                    isDragging = true;
+                    startX = e.pageX - container.offsetLeft;
+                    startY = e.pageY - container.offsetTop;
+                    scrollLeft = container.scrollLeft;
+                    scrollTop = container.scrollTop;
+                });
+
+                container.addEventListener('mousemove', function(e) {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    const x = e.pageX - container.offsetLeft;
+                    const y = e.pageY - container.offsetTop;
+                    const walkX = (x - startX);
+                    const walkY = (y - startY);
+                    container.scrollLeft = scrollLeft - walkX;
+                    container.scrollTop = scrollTop - walkY;
+                });
+
+                container.addEventListener('mouseup', function() {
+                    isDragging = false;
+                });
+
+                container.addEventListener('mouseleave', function() {
+                    isDragging = false;
+                });
+            }
+        }
+    </script>
+</body>
+</html>
