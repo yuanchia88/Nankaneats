@@ -183,11 +183,14 @@
         }
 
         .modal img {
-            width: 100%;
+            width: auto;
+            max-width: 100%;
+            max-height: 70vh;
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.2);
             cursor: zoom-in;
             transition: transform 0.3s ease;
+            object-fit: contain;
         }
 
         .modal img.zoomed {
@@ -248,41 +251,9 @@
         </div>
 
         <div class="tabs">
-            <button class="tab-button active" onclick="showTab('main-dishes')">🍜 主餐類</button>
-            <button class="tab-button" onclick="showTab('desserts')">🧋 下午茶甜點</button>
+            <!-- 動態生成的頁籤會在這裡 -->
         </div>
-
-        <div id="main-dishes" class="tab-content active">
-            <div class="menu-grid">
-                <div class="menu-card" onclick="openModal('menu1')">
-                    <img src="/Nankaneats/foodimages/fm1.jpg" alt="來來小吃店" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZjc5NDM7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmYWI0MDtzdG9wLW9wYWNpdHk6MSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjUwIiBmaWxsPSJ1cmwoI2dyYWQpIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIxMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7mjLHniYfogZrnmbU8L3RleHQ+CiAgPHRleHQgeD0iMjAwIiB5PSIxNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuWPsOeBo+mHjuaWmeWkp+WFqDwvdGV4dD4KICA8Y2lyY2xlIGN4PSI4MCIgY3k9IjgwIiByPSIzMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIi8+CiAgPGNpcmNsZSBjeD0iMzIwIiBjeT0iMTcwIiByPSIyNSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjIpIi8+Cjwvc3ZnPg=='">
-                    <div class="menu-info">
-                        <div class="menu-title">來來小吃店</div>
-                        <div class="menu-description">台灣傳統黑豬肉 • 大火快炒製成<br>招牌肉燥麵、湯品、熱炒等</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="desserts" class="tab-content">
-            <div class="menu-grid">
-                <div class="menu-card" onclick="openModal('menu2')">
-                    <img src="/Nankaneats/teatimeimages/tm1.jpg" alt="天仁茗茶" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZDIiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNmJiNmZmO3N0b3Atb3BhY2l0eToxIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM0ZjQ2ZTU7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0idXJsKCNncmFkMikiLz4KICA8dGV4dCB4PSIyMDAiIHk9IjEwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuiMtuW4q+mkkOiMtTwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjE0MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+57aT5YW456OL5qW8ICLkuLPlkpHoopE8L3RleHQ+CiAgPGNpcmNsZSBjeD0iMTIwIiBjeT0iNjAiIHI9IjIwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNCkiLz4KICA8Y2lyY2xlIGN4PSIzMDAiIGN5PSIxODAiIHI9IjE1IiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiLz4KICA8Y2lyY2xlIGN4PSI2MCIgY3k9IjE4MCIgcj0iMTgiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zKSIvPgo8L3N2Zz4='">
-                    <div class="menu-info">
-                        <div class="menu-title">天仁茗茶</div>
-                        <div class="menu-description">精選現泡茶葉 • 專業調茶師<br>經典原茶、醇蜜系列、奶茶類等</div>
-                    </div>
-                </div>
-
-                <div class="menu-card" onclick="openModal('menu3')">
-                    <img src="/Nankaneats/teatimeimages/tm2.jpg" alt="先喝道" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZDMiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZmY2ZGJiO3N0b3Atb3BhY2l0eToxIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNlZTUzOTY7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0idXJsKCNncmFkMykiLz4KICA8dGV4dCB4PSIyMDAiIHk9IjEwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuatpeWWneWuo+mjsEE8L3RleHQ+CiAgPHRleHQgeD0iMjAwIiB5PSIxNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuaqv+eKlOmFlOaWmeWvpueJueiqv+iMtTwvdGV4dD4KICA8Y2lyY2xlIGN4PSI5MCIgY3k9IjcwIiByPSIyNSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIi8+CiAgPGNpcmNsZSBjeD0iMzEwIiBjeT0iMTkwIiByPSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjI1KSIvPgo8L3N2Zz4='">
-                    <div class="menu-info">
-                        <div class="menu-title">先喝道</div>
-                        <div class="menu-description">精緻茶品 • 專業調配<br>莊園好茶、糯島龍、精選奶茶等</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- 動態生成的內容區域會在這裡 -->
     </div>
 
     <!-- 模態視窗 -->
@@ -294,38 +265,75 @@
     </div>
 
     <script>
-        const menuData = {
-            menu1: {
-                title: "來來小吃店",
-                image: "/Nankaneats/foodimages/fm1.jpg",
-                content: `
-                    <h2>來來小吃店</h2>
-                    <p><strong>地址：</strong>(03)312-5555</p>
-                    <p><strong>營業時間：</strong>11:30 - 21:00 (週四公休)</p>
-                    <p><strong>特色：</strong>本店傳統以上等的「台灣溫體黑豬肉」大火快炒製成</p>
-                `
-            },
-            menu2: {
-                title: "天仁茗茶",
-                image: "/Nankaneats/teatimeimages/tm1.jpg",
-                content: `
-                    <h2>天仁茗茶</h2>
-                    <p><strong>地址：</strong>南崁路二段123號</p>
-                    <p><strong>營業時間：</strong>10:00 - 22:00</p>
-                    <p><strong>特色：</strong>經典現泡茶葉，專業調茶師精心製作</p>
-                `
-            },
-            menu3: {
-                title: "先喝道",
-                image: "/Nankaneats/teatimeimages/tm2.jpg",
-                content: `
-                    <h2>先喝道</h2>
-                    <p><strong>地址：</strong>新生路456號</p>
-                    <p><strong>營業時間：</strong>11:00 - 21:30</p>
-                    <p><strong>特色：</strong>精緻茶品專業調配，嚴選上等茶葉</p>
-                `
+        let menuData = {};
+        
+        // 載入菜單數據
+        async function loadMenuData() {
+            try {
+                // 載入所有類別的數據
+                const [breakfast, meals, teatime] = await Promise.all([
+                    fetch('./data/breakfast.json').then(res => res.json()),
+                    fetch('./data/meals.json').then(res => res.json()),
+                    fetch('./data/teatime.json').then(res => res.json())
+                ]);
+
+                const data = {
+                    categories: [breakfast, meals, teatime]
+                };
+                
+                // 初始化頁籤
+                const tabsContainer = document.querySelector('.tabs');
+                tabsContainer.innerHTML = data.categories.map(category => `
+                    <button class="tab-button${category.id === 'main-dishes' ? ' active' : ''}" 
+                            onclick="showTab('${category.id}')">
+                        ${category.icon} ${category.name}
+                    </button>
+                `).join('');
+
+                // 初始化內容區域
+                const container = document.querySelector('.container');
+                data.categories.forEach(category => {
+                    const content = document.createElement('div');
+                    content.id = category.id;
+                    content.className = `tab-content${category.id === 'main-dishes' ? ' active' : ''}`;
+                    
+                    content.innerHTML = `
+                        <div class="menu-grid">
+                            ${category.items.map(item => `
+                                <div class="menu-card" onclick="openModal('${item.id}')">
+                                    <img src="${item.image}" alt="${item.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZjc5NDM7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmYWI0MDtzdG9wLW9wYWNpdHk6MSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjUwIiBmaWxsPSJ1cmwoI2dyYWQpIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIxMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7mjLHniYfogZrnmbU8L3RleHQ+CiAgPHRleHQgeD0iMjAwIiB5PSIxNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuWPsOeBo+mHjuaWmeWkp+WFqDwvdGV4dD4KICA8Y2lyY2xlIGN4PSI4MCIgY3k9IjgwIiByPSIzMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIi8+CiAgPGNpcmNsZSBjeD0iMzIwIiBjeT0iMTcwIiByPSIyNSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjIpIi8+Cjwvc3ZnPg=='">
+                                    <div class="menu-info">
+                                        <div class="menu-title">${item.title}</div>
+                                        <div class="menu-description">${item.description}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    
+                    container.appendChild(content);
+                    
+                    // 建立模態視窗數據
+                    category.items.forEach(item => {
+                        menuData[item.id] = {
+                            title: item.title,
+                            image: item.image,
+                            content: `
+                                <h2>${item.title}</h2>
+                                <p><strong>地址：</strong>${item.details.address}</p>
+                                <p><strong>營業時間：</strong>${item.details.hours}</p>
+                                <p><strong>特色：</strong>${item.details.features}</p>
+                            `
+                        };
+                    });
+                });
+            } catch (error) {
+                console.error('Error loading menu data:', error);
             }
-        };
+        }
+
+        // 頁面載入時初始化數據
+        loadMenuData();
 
         function showTab(tabName) {
             // 隱藏所有標籤內容
