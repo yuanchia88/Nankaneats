@@ -46,6 +46,17 @@
         "hours": "11:00 - 22:00",
         "features": "採用獨特熟成工法，打造醇厚茶香，提供多款特色茶飲"
       }
+    },
+    {
+      "id": "teatime5",
+      "title": "玉津",
+      "image": "./teatimeimages/tm5.jpg",
+      "description": "",
+      "details": {
+        "address": "338桃園市蘆竹區忠孝西路16號",
+        "hours": "07:00 - 21:30",
+        "features": ""
+      }
     }
   ]
 }
